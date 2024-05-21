@@ -80,3 +80,11 @@ The application uses [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) as the
 - `/createPost/:id`
 - `/follow/:userId`
 - `/unfollow/:userId`
+
+
+
+## Screenshots and Screenrecords
+
+Some App screenshots are in the 'screenshots' folder
+
+Screenrecord Video: [Dropbox](https://www.dropbox.com/scl/fi/dd5a6wlh2vsnyh9mn796k/FoodSavr-Screenrecord.mp4?rlkey=sk04yvqm8p6rwt6k8rurl14a0&st=qsd2s1lm&dl=0)
