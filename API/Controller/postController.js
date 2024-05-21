@@ -23,6 +23,7 @@ const createPost = async (req, res) => {
     });
     await newPost.save();
 
+    console.log(newPost);
     res
       .status(201)
       .json({ message: "Post created successfully", post: newPost });
@@ -46,11 +47,14 @@ const allPost = async (req, res) => {
 const getPost = async (req, res) => {
   try {
     const postId = req.params.id;
-    const post = await Post.findById(postId);
+    // Find the post by ID and populate the 'user' field
+    const post = await Post.findById(postId).populate("user", "-password");
     if (!post) {
       return res.status(404).json({ message: "Post not found" });
     }
-    res.status(200).json(post);
+    const user = post.user;
+    // The 'user' field in the post will now contain the user details
+    res.status(200).json({ post, user });
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: "Internal server error" });

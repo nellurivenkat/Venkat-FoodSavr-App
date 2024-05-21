@@ -7,8 +7,15 @@ const { generateToken } = require("../Helper/token");
 
 const register = async (req, res) => {
   try {
-    const { firstName, lastName, email, phoneNumber, password, accountType } =
-      req.body;
+    const {
+      firstName,
+      lastName,
+      email,
+      phoneNumber,
+      password,
+      accountType,
+      bio,
+    } = req.body;
     if (!firstName)
       return res.status(400).json({ message: "Your first name is required" });
     if (!lastName)
@@ -44,10 +51,11 @@ const register = async (req, res) => {
       lastName,
       phoneNumber,
       accountType,
+      bio,
       email: filteredEmail,
       password: hashedPassword,
       image:
-        "https://th.bing.com/th/id/R.396a8ea66c7d39c7737bef08a6193200?rik=JX6qZMoUg54nOw&pid=ImgRaw&r=0",
+        "https://www.shareicon.net/data/512x512/2016/11/09/851774_fork_512x512.png",
     });
 
     const token = await generateToken({ userId: newUser._id });
@@ -60,6 +68,7 @@ const register = async (req, res) => {
       location: newUser.location,
       image: newUser.image,
       accountType: newUser.accountType,
+      _id: newUser._id,
     };
     res.status(200).json({ user: userData, token: token });
   } catch (err) {
@@ -98,6 +107,7 @@ const login = async (req, res) => {
       image: user.image,
       location: user.location,
       accountType: user.accountType,
+      _id: user._id,
     };
 
     res.status(200).json({ user: userData, token: token });

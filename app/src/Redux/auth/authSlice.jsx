@@ -7,6 +7,7 @@ import { postDataAPI } from "../api";
 const initialState = {
   user: null,
   loading: false,
+  loginLoading:false,
   error: null,
   token: null,
 };
@@ -94,6 +95,9 @@ const authSlice = createSlice({
     setUser: (state, action) => {
       state.user = action.payload;
     },
+    setToken: (state, action) => {
+      state.token = action.payload
+    }
   },
 
   extraReducers: (builder) => {
@@ -111,15 +115,15 @@ const authSlice = createSlice({
         state.error = action.payload;
       })
       .addCase(loginUser.pending, (state) => {
-        state.loading = true;
+        state.loginLoading = true;
         state.error = null;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        state.loading = false;
+        state.loginLoading = false;
         state.user = action.payload;
       })
       .addCase(loginUser.rejected, (state, action) => {
-        state.loading = false;
+        state.loginLoading = false;
         state.error = action.payload;
       })
       .addCase(logoutUser.fulfilled, (state) => {
@@ -128,6 +132,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { setUser } = authSlice.actions;
+export const { setUser, setToken } = authSlice.actions;
 
 export default authSlice.reducer;

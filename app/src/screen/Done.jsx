@@ -6,13 +6,12 @@ import CloseIcon from "../assets/icon/close.png"; // Import the SVG icon
 const Done = ({ setDone }) => {
   return (
     <View style={styles.container}>
-      <View style={styles.closeIcon}>
-        {/* Use SvgUri to display the SVG icon */}
-        <Pressable onPress={() => setDone(false)}>
-          <Image className="w-5 h-5" source={CloseIcon} />
-        </Pressable>
-      </View>
       <View style={styles.content}>
+        <View style={styles.closeIcon}>
+          <Pressable onPress={() => setDone(false)}>
+            <Image className="w-5 h-5" source={CloseIcon} />
+          </Pressable>
+        </View>
         <Text style={styles.title}>Uploaded Successfully</Text>
         <Text className="text-[50px]">👌</Text>
         <Text>Post has been created Successfully.</Text>
@@ -23,8 +22,8 @@ const Done = ({ setDone }) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
-    height: "100%",
+    width: "100vw",
+    height: "100vh",
     position: "absolute",
     top: 0,
     left: 0,
@@ -49,6 +48,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "space-between",
+    position: "relative",
   },
   title: {
     fontSize: 17,

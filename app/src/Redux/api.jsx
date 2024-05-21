@@ -2,7 +2,8 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useSelector } from "react-redux";
 
-const API_BASE_URL = "https://venkat-foodsavr-app.onrender.com/api";
+// const API_BASE_URL = "https://venkat-foodsavr-app.onrender.com/api";
+const API_BASE_URL = "http://172.25.224.1:5000/api";
 
 // Interceptor to attach authorization token to requests
 const setupAxiosInterceptors = async () => {

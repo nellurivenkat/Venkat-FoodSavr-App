@@ -19,8 +19,14 @@ const Distance = ({ userLocation, to }) => {
   };
 
   // Extract latitude and longitude from userLocation and to
-  const { latitude: userLat, longitude: userLon } = userLocation;
-  const { latitude: toLat, longitude: toLon } = to;
+  const userLat = userLocation ? userLocation.latitude : null;
+  const userLon = userLocation ? userLocation.longitude : null;
+  const toLat = to ? to.latitude : null;
+  const toLon = to ? to.longitude : null;
+
+  if (!userLocation || !to) {
+    return null; // or return an empty view, or a message saying "No location available"
+  }
 
   // Calculate distance
   const distance = calculateDistance(userLat, userLon, toLat, toLon);

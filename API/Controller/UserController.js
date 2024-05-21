@@ -5,7 +5,7 @@ const Post = require("../Models/PostModel");
 const getUserProfile = async (req, res) => {
   try {
     const userId = req.params.id;
-    console.log(userId);
+    console.log("UserID", userId);
     const user = await User.findById(userId);
 
     if (!user) {
@@ -24,7 +24,7 @@ const getUserProfile = async (req, res) => {
 // Controller function to edit user profile
 const editUserProfile = async (req, res) => {
   try {
-    const userId = req.user._id;
+    const userId = req.body._id;
 
     const {
       firstName,
@@ -35,6 +35,7 @@ const editUserProfile = async (req, res) => {
       accountType,
       bio,
       location,
+      _id
     } = req.body;
 
     console.log("Request Body:", req.body);
@@ -45,8 +46,7 @@ const editUserProfile = async (req, res) => {
       !lastName ||
       !email ||
       !image ||
-      !phoneNumber ||
-      !accountType
+      !phoneNumber
     ) {
       return res
         .status(450)
@@ -66,7 +66,7 @@ const editUserProfile = async (req, res) => {
     });
 
     const updatedUser = await User.findByIdAndUpdate(
-      userId,
+      _id,
       {
         firstName,
         lastName,

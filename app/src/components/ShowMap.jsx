@@ -50,10 +50,10 @@ const Map = ({ setLocation, handleSubmit }) => {
   return (
     <View style={styles.container}>
       {showPermissionPopup && (
-        <Alert
-          title="Location Permission Required"
-          message="Please allow access to your location to use this feature."
-          buttons={[
+        Alert.alert(
+          "Location Permission Required",
+          "Please allow access to your location to use this feature.",
+          [
             {
               text: "OK",
               onPress: async () => {
@@ -61,8 +61,8 @@ const Map = ({ setLocation, handleSubmit }) => {
                 await requestLocationPermission();
               },
             },
-          ]}
-        />
+          ]
+        )
       )}
       {region ? (
         <>

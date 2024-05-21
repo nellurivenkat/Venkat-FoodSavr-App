@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Placeholder from "../assets/images/placeholder.jpeg";
 import {
   View,
   TextInput,
@@ -6,6 +7,8 @@ import {
   Text,
   ActivityIndicator,
   Pressable,
+  Image,
+  ScrollView,
 } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik } from "formik";
@@ -17,6 +20,8 @@ import * as ImagePicker from "expo-image-picker"; // Import ImagePicker from exp
 import Map from "../components/ShowMap";
 import { createPost } from "../Redux/post/postSlice";
 import Done from "./Done";
+import { postDataAPI } from "../Redux/api";
+import SuccessUpload from "./SuccessUpload";
 
 const registerSchema = yup.object().shape({
   title: yup.string().required("Title is required"),
@@ -28,11 +33,10 @@ const registerSchema = yup.object().shape({
 const CreatePost = ({ navigation }) => {
   const dispatch = useDispatch();
 
-  const error = useSelector((state) => state.post.error);
   const [image, setImage] = useState(null);
   const [location, setLocation] = useState();
   const [addLocation, setAddLocation] = useState(false);
-  const [registerError, setRegisterError] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
 
@@ -59,13 +63,15 @@ const CreatePost = ({ navigation }) => {
       }
     } catch (error) {
       console.error("Error uploading image:", error);
-      setRegisterError("Error uploading image. Please try again.");
+      setError("Error uploading image. Please try again.");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const handleRegister = async (values) => {
-    setRegisterError(""); // Clear previous error
+    setLoading(true);
+    setError(null);
     try {
       let imageUrl = null;
       if (image) {
@@ -79,6 +85,7 @@ const CreatePost = ({ navigation }) => {
         const cloudName = "dd6wbwlw9";
         const uploadPreset = "jmro2et8";
 
+        console.log("Uplaoding image");
         const response = await fetch(
           `https://api.cloudinary.com/v1_1/${cloudName}/image/upload?upload_preset=${uploadPreset}`,
           {
@@ -90,28 +97,52 @@ const CreatePost = ({ navigation }) => {
         console.log(data);
         imageUrl = data.secure_url;
       }
-      console.log(loading);
 
-      console.log(imageUrl);
+      console.log("Image uploaded");
       // Create postData with the imageUrl
       const postData = { ...values, media: imageUrl, location };
-
+      try {
+        console.log(postData);
+        const response = await postDataAPI("/createPost", postData);
+        setDone(true);
+        return response.post;
+      } catch (error) {
+        console.log(error);
+        return error;
+      }
       // Dispatch action to create post with postData
-      dispatch(createPost(postData));
-      setDone(true);
     } catch (error) {
       console.error("Error uploading image:", error);
       setRegisterError("Error uploading image. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <>
-      <View className="px-4 h-screen mt-20">
+    <ScrollView>
+      <View>
+        <Pressable className="" onPress={upLoadImage}>
+          {image ? (
+            <Image
+              onPress={upLoadImage}
+              source={{ uri: image }}
+              className="w-full h-[350px] object-cover rounded-xl mb-3"
+            />
+          ) : (
+            <Image
+              source={Placeholder}
+              className="w-full h-[350px] object-cover rounded-xl mb-3"
+            />
+          )}
+        </Pressable>
+      </View>
+      <View className="px-4 h-screen mt-3 mb-20">
         <Text className="text-orange-600 text-[25px]">Upload Food</Text>
         <Text className="text-gray-600 mb-3">
-          Fill your login details to login to your account.
+          Fill in the food details to upload food.
         </Text>
+
         <Formik
           initialValues={{
             title: "",
@@ -140,11 +171,15 @@ const CreatePost = ({ navigation }) => {
                 onChangeText={handleChange("details")}
                 onBlur={handleBlur("details")}
                 value={values.details}
-                className="w-full px-3 py-2 border border-gray-300 rounded mb-3"
+                className="w-full px-3 py-2 border border-gray-300 rounded mb-3 h-[70px]"
               />
               {errors.details && (
                 <Text style={{ color: "red" }}>{errors.details}</Text>
               )}
+              <Text className="text-gray-500">
+                {" "}
+                Note: Price is set to euro (€)
+              </Text>
               <TextInput
                 placeholder="Price"
                 onChangeText={handleChange("price")}
@@ -156,6 +191,7 @@ const CreatePost = ({ navigation }) => {
               {errors.price && (
                 <Text style={{ color: "red" }}>{errors.price}</Text>
               )}
+              <Text className="text-gray-400 mb-1 ">Select a pick up type</Text>
               <View className="w-full px-3  border border-gray-300 rounded mb-3">
                 <Picker
                   selectedValue={values.type}
@@ -170,10 +206,12 @@ const CreatePost = ({ navigation }) => {
                 <Text style={{ color: "red" }}>{errors.type}</Text>
               )}
               {addLocation && (
-                <Map
-                  setLocation={setLocation}
-                  handleSubmit={() => setAddLocation(false)}
-                />
+                <View className="w-full h-[400px] z-50 bg-slate-500 rounded-xl overflow-hidden">
+                  <Map
+                    setLocation={setLocation}
+                    handleSubmit={() => setAddLocation(false)}
+                  />
+                </View>
               )}
               {addLocation ? (
                 <Pressable
@@ -185,30 +223,32 @@ const CreatePost = ({ navigation }) => {
               ) : (
                 <Pressable
                   onPress={() => setAddLocation(true)}
-                  className="bg-blue-400 rounded-xl px-3 py-4 mt-2"
+                  className="text-blue-400"
                 >
-                  <Text className="text-center text-white">Show Map</Text>
+                  <Text className="text-blue-400">Add Location</Text>
                 </Pressable>
               )}
-              {registerError !== "" && (
-                <Text style={{ color: "red" }}>{registerError}</Text>
+              {location && (
+                <Text>
+                  <Text className="font-bold"> The location is :</Text>{" "}
+                  {location?.latitude} and {location?.longitude}
+                </Text>
               )}
+
+              {error !== "" && <Text style={{ color: "red" }}>{error}</Text>}
               {/* Upload Image button */}
-              <Pressable
-                onPress={upLoadImage}
-                className="bg-red-700 rounded-xl px-3 py-4 mt-2"
-              >
-                <Text className="text-center text-white">Upload Image</Text>
-              </Pressable>
               {/* Loading indicator and Register button */}
               {loading ? (
                 <ActivityIndicator size="large" color="blue" />
               ) : (
                 <Pressable
                   onPress={handleSubmit}
-                  className="bg-orange-400 rounded-xl px-3 py-4 mt-4"
+                  className="bg-orange-600 rounded px-3 py-4 mt-4"
+                  disabled={loading}
                 >
-                  <Text className="text-center text-white">Upload</Text>
+                  <Text className="text-center text-white">
+                    {loading ? "Loading..." : "Upload"}
+                  </Text>
                 </Pressable>
               )}
               {error && <Text style={{ color: "red" }}>{error.message}</Text>}
@@ -218,8 +258,8 @@ const CreatePost = ({ navigation }) => {
       </View>
       {/* Add location */}
 
-      {done && <Done setDone={setDone} />}
-    </>
+      {done && <SuccessUpload setDone={setDone} />}
+    </ScrollView>
   );
 };
 

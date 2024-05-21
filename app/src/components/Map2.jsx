@@ -26,7 +26,7 @@ const Map2 = ({ setLocation, handleSubmit }) => {
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         });
-        setLocation(region);
+    
       } else {
         setShowPermissionPopup(true);
       }
@@ -74,13 +74,7 @@ const Map2 = ({ setLocation, handleSubmit }) => {
             <Marker coordinate={region} />
           </MapView>
           <View className="p-2 flex items-center ">
-            <Pressable
-              title="Select Location"
-              className="w-full p-4 bg-orange-600 m-2 rounded-full"
-              onPress={handleSubmit}
-            >
-              <Text className="text-center text-white">Close</Text>
-            </Pressable>
+           
           </View>
         </>
       ) : (

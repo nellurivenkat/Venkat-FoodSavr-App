@@ -4,6 +4,8 @@ import ShowMap from "../components/ShowMap";
 import { editUserProfile } from "../Redux/profile/profileSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../Redux/auth/authSlice";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { putDataAPI } from "../Redux/api";
 
 const AddLocation = () => {
   const [location, setLocation] = useState("");
@@ -16,14 +18,25 @@ const AddLocation = () => {
     setShowMap(true);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // Update user data with new location
     const userData = { ...user, location: location };
     // Dispatch action to edit user profile
+    try {
+      const response = await putDataAPI("/profile", userData);
+
+      console.log("UserData set", userData);
+
+      const updatedUserData = { ...userData, location: location };
+      // Save the updated user data back to AsyncStorage
+      await AsyncStorage.setItem("user", JSON.stringify(updatedUserData));
+      console.log("User location updated:", location);
+      dispatch(setUser(userData));
+      // setLoacationSet(true);
+    } catch (error) {
+      console.log(error);
+    }
     dispatch(editUserProfile(userData));
-    dispatch(setUser(userData));
-    setLoacationSet(true);
-    console.log("Updated user data:", userData);
   };
 
   return (

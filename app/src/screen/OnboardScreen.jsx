@@ -1,6 +1,6 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import React from "react";
-const OnboardScreen = ({navigation}) => {
+const OnboardScreen = ({ navigation }) => {
   return (
     <View className="w-screen h-screen relative">
       <Image
@@ -20,17 +20,25 @@ const OnboardScreen = ({navigation}) => {
       {/* main content */}
       <View className="flex w-screen h-screen justify-center items-center">
         <Text className="text-orange-600 text-5xl font-black">FoodSavr</Text>
-        <Text>Transforming Waste into Taste!</Text>
+        <Text className="text-[18px]">Transforming Waste into Taste!</Text>
+        <Text className="px-3 text-center text-gray-500">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptate pariatur dicta laboriosam assumenda illum similique dolore in voluptatem corporis est.</Text>
       </View>
       <View className="absolute bottom-10 w-full">
         <View className="flex justify-end items-center">
           <TouchableOpacity
-            className="bg-orange-600 w-[300] max-w-full h-14 flex  items-center justify-center rounded-full"
-            onPress={() => navigation.navigate("Login")}
+            className="bg-orange-600 w-[300] max-w-full h-11 flex  items-center justify-center rounded-full font-light"
+            onPress={() => navigation.navigate("Register")}
           >
-            <Text className="text-white text-xl">Sign In</Text>
+            <Text className="text-white text-xl">Sign Up</Text>
           </TouchableOpacity>
         </View>
+        <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+          <Text className="text-center mt-3 text-blue-400">
+            I already have an account{" "}
+          </Text>
+        </TouchableOpacity>
+
+       
       </View>
     </View>
   );

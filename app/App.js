@@ -8,8 +8,10 @@ import AppNavigator from "./src/function/AppNavigator";
 
 export default function App() {
   return (
-    <Provider store={store}>
-      <AppNavigator />
-    </Provider>
+    <View className="h-screen">
+      <Provider store={store}>
+        <AppNavigator />
+      </Provider>
+    </View>
   );
 }
