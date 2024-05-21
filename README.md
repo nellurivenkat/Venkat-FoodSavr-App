@@ -1,100 +1,82 @@
-# Venkat-FoodSavr-App
+# Venkat-FoodSavr-App 🍽️
 
+A React Native Expo application for managing and sharing food resources. 🍎🥦🥪
 
+## Student Information 👨‍🎓
 
+- Name: Nelluri Venkat
+- Student ID: 25463
+- Email: 25463@student.dorset-college.ie
 
-Student Name: Nelluri Venkat
+## Prerequisites ⚙️
 
+- Node.js (>=12.x)
+- npm (>=6.x)
+- Expo CLI (install globally via `npm install -g expo-cli`)
 
-Student ID: 25463
+## Installation 🚀
 
+1. Clone the repository or download the source code.
+2. Extract the downloaded files if necessary.
 
-Student Email: 25463@student.dorset-college.ie
+### Install Dependencies 📦
 
+Open the `Venkat-FoodSavr-App\API` folder in your terminal and run:
 
+```bash
+npm install
+```
 
+Open the `Venkat-FoodSavr-App\app` folder in your terminal and run:
 
+```bash
+npm install
+```
 
+## Running the Application ⚡
 
+### Start the Backend Server 🖥️
 
+Open the `Venkat-FoodSavr-App\API` folder in your terminal and run:
 
-**How to Run This React Native Expo project:**
+```bash
+npm run dev
+```
 
-1. **Install Expo CLI**
-   Run the following command to install the Expo CLI globally:
-   ```
-   npm install -g expo-cli
-   ```
+### Start the Expo Development Server 📱
 
-2. **Create a new Expo project**
-   Navigate to the directory where you want to create your project, and run the following command to create a new Expo project:
-   ```
-   expo init app
-   ```
-   This command will prompt you to choose a template for your project. You can select the option that best suits your needs (e.g., "blank" for a minimal setup, or "tabs" for a tabbed navigation structure).
+Open the `Venkat-FoodSavr-App\app` folder in your terminal and run:
 
-3. **Navigate into the project directory**
-   After the project setup is complete, navigate into the project directory:
-   ```
-   cd app
-   ```
+```bash
+npm start
+```
 
-4. **Start the Expo development server**
-   Run the following command to start the Expo development server:
-   ```
-   expo start
-   ```
-   This will open the Expo Developer Tools in your default web browser.
+A QR code will be displayed in the terminal. You can scan this QR code using the Expo Go app on your mobile device to run the application.
 
-5. **Run the app on a simulator or physical device**
-   - **iOS Simulator**: Press `i` in the Expo Developer Tools to run the app in the iOS simulator.
-   - **Android Emulator**: Press `a` in the Expo Developer Tools to run the app in the Android emulator.
-   - **Physical Device**: Scan the QR code displayed in the Expo Developer Tools with the Expo Go app (available on the App Store or Google Play Store) on your physical device.
+### Expo Go App 📲
 
-6. **Make changes and see them live**
-   With Expo's hot reloading feature, any changes you make to your code will be automatically reflected in the running app. Simply save your changes, and the app will refresh to display the updates.
+1. Install the Expo Go app on your Android or iOS mobile device.
+2. Open the Expo Go app and scan the QR code displayed in the terminal.
 
+## Backend Deployment 🌐
 
+The backend for this application is deployed on [Render](https://render.com/). 🚀
 
+## Database 💾
 
-**The Backend was deployed on Render:** [render.com](https://render.com/)
+The application uses [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) as the database. 📂
 
+## API Endpoints 🔌
 
-
-
-
-
-**Database: MongoDB Atlas**
-
-
-
-
-
-
-**End point for back end:** 
-
-
-
-/profile/:id
-
-/profile
-
-/users
-
-/createPost
-
-/posts
-
-/posts/:id/post/:id
-
-/post/:id
-
-/sendMessage
-
-/getMessages/:userId/:otherUserId
-
-/createPost/:id
-
-/follow/:userId
-
-/unfollow/:userId
+- `/profile/:id`
+- `/profile`
+- `/users`
+- `/createPost`
+- `/posts`
+- `/posts/:id/post/:id`
+- `/post/:id`
+- `/sendMessage`
+- `/getMessages/:userId/:otherUserId`
+- `/createPost/:id`
+- `/follow/:userId`
+- `/unfollow/:userId`
